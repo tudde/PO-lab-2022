@@ -8,8 +8,7 @@ class AnimalTest {
 
     @Test
     void AnimalDirTest() {
-        Animal a = new Animal();
-        Animal b = new Animal();
+        Animal a = new Animal(new RectangularMap(4,4),new Vector2d(2,2));
 
         a.move(MoveDirection.RIGHT);
         assertEquals(a.getDirection(), MapDirection.EAST);
@@ -20,18 +19,15 @@ class AnimalTest {
         a.move(MoveDirection.LEFT);
         assertEquals(a.getDirection(), MapDirection.SOUTH);
 
-        b.move(MoveDirection.LEFT);
-        b.move(MoveDirection.LEFT);
-        b.move(MoveDirection.LEFT);
-        b.move(MoveDirection.LEFT);
-        assertEquals(b.getDirection(), MapDirection.NORTH);
     }
 
     @Test
     void AnimalMoveTest(){
-        Animal a = new Animal();
+        Animal a = new Animal(new RectangularMap(5,5),new Vector2d(2,2));
         a.move(MoveDirection.FORWARD);
+        assertEquals(a.getPosition(),new Vector2d(2,3));
         a.move(MoveDirection.BACKWARD);
+        assertEquals(a.getPosition(),new Vector2d(2,2));
         a.move(MoveDirection.FORWARD);
         a.move(MoveDirection.RIGHT);
         a.move(MoveDirection.FORWARD);
@@ -40,6 +36,7 @@ class AnimalTest {
         assertEquals(a.getDirection(), MapDirection.EAST);
 
         a.move(MoveDirection.FORWARD);
+        assertEquals(a.getPosition(),new Vector2d(4,3));
         a.move(MoveDirection.RIGHT);
         a.move(MoveDirection.FORWARD);
         a.move(MoveDirection.FORWARD);

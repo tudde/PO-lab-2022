@@ -1,6 +1,5 @@
 package agh.ics.oop;
 
-import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,10 +18,7 @@ class OptionsParserTest {
                 MoveDirection.LEFT,
                 MoveDirection.LEFT
         };
-
-
         output=OptionsParser.parse(input);
-
         assertArrayEquals(output,toMatch);
     }
 

@@ -1,53 +1,60 @@
 package agh.ics.oop;
 
-import java.util.Map;
 
-public class Animal {
+public class Animal{
     private MapDirection direction;
     private Vector2d position;
-    public Animal(){
-        this.direction = MapDirection.NORTH;
-        this.position = new Vector2d(2,2);
+    private IWorldMap worldMap;
 
+    public Animal(IWorldMap map, Vector2d initialPosition){
+        this.position = initialPosition;
+        this.worldMap = map;
+        this.direction = MapDirection.NORTH;
+
+
+    }
+    public Animal(IWorldMap map) {
+        this(map, new Vector2d(2, 2));
     }
 
     public String toString(){
-        return this.direction.toString()+" "+this.position.toString();
+        String res=this.position.toString();
+        switch (this.direction) {
+            case NORTH -> res+=" N";
+            case SOUTH -> res+=" S";
+            case EAST -> res+=" E";
+            case WEST -> res+=" W";
+        }
+        return res;
     }
+
+
     public boolean isAt(Vector2d pos){
         return position.equals(pos);
     }
+
     public void move(MoveDirection direction){
-        int newx;
-        int newy;
-        Vector2d moveVector;
-        switch(direction){
-
-            case LEFT:
-                this.direction = this.direction.previous();
-                break;
-            case RIGHT:
-                this.direction = this.direction.next();
-                break;
-            case FORWARD:
-
-                moveVector = this.direction.toUnitVector();
-                newx = this.position.x+moveVector.x;
-                newy = this.position.y+ moveVector.y;
-                if (newx>=0 && newx<=4 && newy>=0 && newy<=4){
-                    this.position= new Vector2d(newx, newy);
-                }
-                break;
-            case BACKWARD:
-
-                moveVector = this.direction.toUnitVector().opposite();
-                newx = this.position.x+moveVector.x;
-                newy = this.position.y+ moveVector.y;
-                if (newx>=0 && newx<=4 && newy>=0 && newy<=4){
-                    this.position= new Vector2d(newx, newy);
-                }
-                break;
+        Vector2d newPosition;
+        if (direction == MoveDirection.LEFT){
+            this.direction = this.direction.previous();
         }
+        else if (direction == MoveDirection.RIGHT){
+            this.direction = this.direction.next();
+        }
+        else{
+            if (direction == MoveDirection.FORWARD) {
+                newPosition = this.position.add(this.direction.toUnitVector());
+            }
+            else{
+                newPosition = this.position.subtract(this.direction.toUnitVector());
+            }
+            if (worldMap.canMoveTo(newPosition)){
+                this.position= newPosition;
+            }
+
+        }
+
+
     }
 
     public Vector2d getPosition(){
@@ -57,9 +64,5 @@ public class Animal {
     public MapDirection getDirection(){
         return this.direction;
     }
-
-
-
-
 
 }
