@@ -17,21 +17,9 @@ public class GrassField extends AbstractWorldMap{
             Vector2d newPosition = new Vector2d(rng.nextInt((int) Math.sqrt(n * 10)), rng.nextInt((int) Math.sqrt(n * 10)));
             if(!this.isOccupied(newPosition)){
                 grassList.add(new Grass(newPosition));
-                updateExtremes(newPosition);
                 i++;
             }
-
         }
-
-    }
-
-
-    public boolean place(Animal animal){
-        if(super.place(animal)){
-            updateExtremes(animal.getPosition());
-            return true;
-        }
-        return false;
     }
 
 
@@ -39,27 +27,32 @@ public class GrassField extends AbstractWorldMap{
     public Object objectAt(Vector2d position){
         if(super.objectAt(position)!=null) return super.objectAt(position);
         for( Grass g : grassList ){
-            if (g.position.equals(position)){
+            if (g.getPosition().equals(position)){
                 return g;
             }
         }
         return null;
     }
-    public String toString(){
-        MapVisualizer visualizer = new MapVisualizer(this);
-        return visualizer.draw(minPos,maxPos);
 
-    }
     private void updateExtremes(Vector2d newPosition){
-        minPos = new Vector2d(Math.min(minPos.x, newPosition.x),Math.min(minPos.y, newPosition.y));
-        maxPos = new Vector2d(Math.max(maxPos.x, newPosition.x),Math.max(maxPos.y, newPosition.y));
+        minPos = minPos.lowerLeft(newPosition);
+        maxPos = maxPos.upperRight(newPosition);
     }
 
-    public Vector2d getLowerLeft(){
-        return minPos;
+    public Vector2d[] getExtremes(){
+        for(Animal a : animalList){
+            minPos = minPos.lowerLeft(a.getPosition());
+            maxPos = maxPos.upperRight(a.getPosition());
+        }
+        for(Grass g : grassList){
+            minPos = minPos.lowerLeft(g.getPosition());
+            maxPos = maxPos.upperRight(g.getPosition());
+        }
+        Vector2d[] coords = {minPos,maxPos};
+        return coords;
     }
-    public Vector2d getUpperRight(){
-        return maxPos;
-    }
+
+
+
 
 }

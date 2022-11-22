@@ -6,6 +6,8 @@ public class Grass {
         this.position=position;
     }
 
+
+
     public Vector2d getPosition() {
         return position;
     }

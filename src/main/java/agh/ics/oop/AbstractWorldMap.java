@@ -6,16 +6,17 @@ import java.util.List;
 public abstract class AbstractWorldMap implements IWorldMap{
 
     protected List<Animal> animalList = new ArrayList<>();
+    private final MapVisualizer visualizer = new MapVisualizer(this);
 
-    public abstract Vector2d getLowerLeft();
-    public abstract Vector2d getUpperRight();
+
+    public abstract Vector2d[] getExtremes();
 
     public boolean canMoveTo(Vector2d position){
         return !(objectAt(position) instanceof Animal);
     }
 
     public boolean place(Animal animal){
-        if(this.canMoveTo(animal.getPosition())){
+        if(canMoveTo(animal.getPosition())){
             animalList.add(animal);
             return true;
         }
@@ -36,7 +37,7 @@ public abstract class AbstractWorldMap implements IWorldMap{
     }
 
     public String toString(){
-        MapVisualizer visualizer = new MapVisualizer(this);
-        return visualizer.draw(getLowerLeft(),getUpperRight());
+        Vector2d[] coords = getExtremes();
+        return visualizer.draw(coords[0],coords[1]);
     }
 }

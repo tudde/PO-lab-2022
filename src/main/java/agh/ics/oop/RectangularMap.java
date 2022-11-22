@@ -13,11 +13,10 @@ public class RectangularMap extends AbstractWorldMap{
                 && super.canMoveTo(position);
 
     }
-    public Vector2d getLowerLeft(){
-        return new Vector2d(0,0);
-    }
-    public Vector2d getUpperRight(){
-        return new Vector2d(width-1,height-1);
+
+    public Vector2d[] getExtremes(){
+        Vector2d[] coords = {new Vector2d(0,0),new Vector2d(width-1,height-1)};
+        return coords;
     }
 
 
