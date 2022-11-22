@@ -5,7 +5,7 @@ import java.lang.Math;
 
 public class GrassField extends AbstractWorldMap{
 
-    private List<Grass> grassList = new ArrayList<Grass>();
+    private Map<Vector2d, Grass> grasses = new HashMap<>();
     private Vector2d minPos = new Vector2d(Integer.MAX_VALUE,Integer.MAX_VALUE);
     private Vector2d maxPos = new Vector2d(Integer.MIN_VALUE,Integer.MIN_VALUE);
 
@@ -16,7 +16,7 @@ public class GrassField extends AbstractWorldMap{
         while (i<n) {
             Vector2d newPosition = new Vector2d(rng.nextInt((int) Math.sqrt(n * 10)), rng.nextInt((int) Math.sqrt(n * 10)));
             if(!this.isOccupied(newPosition)){
-                grassList.add(new Grass(newPosition));
+                grasses.put(newPosition,new Grass(newPosition));
                 i++;
             }
         }
@@ -26,12 +26,7 @@ public class GrassField extends AbstractWorldMap{
 
     public Object objectAt(Vector2d position){
         if(super.objectAt(position)!=null) return super.objectAt(position);
-        for( Grass g : grassList ){
-            if (g.getPosition().equals(position)){
-                return g;
-            }
-        }
-        return null;
+        return grasses.get(position);
     }
 
     private void updateExtremes(Vector2d newPosition){
@@ -40,11 +35,12 @@ public class GrassField extends AbstractWorldMap{
     }
 
     public Vector2d[] getExtremes(){
-        for(Animal a : animalList){
+        for (Animal a : animals.values()) {
             minPos = minPos.lowerLeft(a.getPosition());
             maxPos = maxPos.upperRight(a.getPosition());
         }
-        for(Grass g : grassList){
+
+        for (Grass g: grasses.values()) {
             minPos = minPos.lowerLeft(g.getPosition());
             maxPos = maxPos.upperRight(g.getPosition());
         }
