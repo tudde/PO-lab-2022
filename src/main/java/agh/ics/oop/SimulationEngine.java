@@ -26,7 +26,7 @@ public class SimulationEngine implements IEngine {
         return animals.get(i);
     }
 
-    @Override
+
     public void run(){
         for (int i=0; i<moves.length; i++){
             animals.get(i%animalsCount).move(moves[i]);

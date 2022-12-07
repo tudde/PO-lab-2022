@@ -2,18 +2,16 @@ package agh.ics.oop;
 import java.util.*;
 
 
-public class Animal{
+public class Animal implements IMapElement{
     private MapDirection direction;
     private Vector2d position;
     private IWorldMap worldMap;
-    protected ArrayList<IPositionChangeObserver> observers = new ArrayList<>();
+    private ArrayList<IPositionChangeObserver> observers = new ArrayList<>();
 
     public Animal(IWorldMap map, Vector2d initialPosition){
         this.position = initialPosition;
         this.worldMap = map;
         this.direction = MapDirection.NORTH;
-
-
     }
     public Animal(IWorldMap map) {
         this(map, new Vector2d(2, 2));
@@ -53,12 +51,8 @@ public class Animal{
             if (worldMap.canMoveTo(newPosition)){
                 positionChanged(newPosition);
                 this.position= newPosition;
-
             }
-
         }
-
-
     }
 
     public Vector2d getPosition(){
@@ -78,9 +72,8 @@ public class Animal{
         this.observers.remove(observer);
     }
 
-    public void positionChanged(Vector2d newPosition){
+    private void positionChanged(Vector2d newPosition){
         Vector2d oldPosition = position;
-
         position = newPosition;
         for (IPositionChangeObserver o : observers){
             o.positionChanged(oldPosition, newPosition);
