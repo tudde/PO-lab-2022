@@ -6,7 +6,9 @@ public class Grass implements IMapElement{
         this.position=position;
     }
 
-
+    public String toImg() {
+        return "src/main/resources/grass.png";
+    }
 
     public Vector2d getPosition() {
         return position;

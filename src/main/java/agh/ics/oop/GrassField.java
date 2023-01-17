@@ -13,7 +13,6 @@ public class GrassField extends AbstractWorldMap{
 
     public GrassField(int n){
         spawnGrass(n);
-
     }
 
     private void spawnGrass(int n){
